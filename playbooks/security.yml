@@ -1,0 +1,20 @@
+- name: Configure OpenStack Security
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Create keypair for SSH
+      command: >
+        openstack keypair create --public-key ~/.ssh/id_rsa.pub devstack-key
+      register: keypair_create
+      failed_when: "'ERROR' in keypair_create.stderr"
+      ignore_errors: true
+
+    - name: Add default security group rule for SSH
+      command: >
+        openstack security group rule create default --protocol tcp --dst-port 22 --remote-ip 0.0.0.0/0
+      ignore_errors: true
+
+    - name: Add admin role to demo user
+      command: >
+        openstack role add --user demo --project demo admin
+      ignore_errors: true

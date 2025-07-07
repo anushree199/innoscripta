@@ -1,0 +1,5 @@
+- name: Deploy OpenStack using DevStack
+  hosts: localhost
+  become: true
+  roles:
+    - devstack

@@ -1,0 +1,27 @@
+- name: Ensure required packages are present
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - sudo
+    - python3
+    - python3-pip
+
+- name: Clone DevStack
+  git:
+    repo: https://opendev.org/openstack/devstack
+    dest: /opt/devstack
+    force: yes
+
+- name: Copy local.conf
+  copy:
+    src: local.conf
+    dest: /opt/devstack/local.conf
+
+- name: Run DevStack installer
+  command: ./stack.sh
+  args:
+    chdir: /opt/devstack
+  environment:
+    FORCE: yes

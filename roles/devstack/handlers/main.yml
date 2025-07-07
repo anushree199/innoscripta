@@ -1,0 +1,4 @@
+- name: Restart devstack
+  command: ./unstack.sh && ./stack.sh
+  args:
+    chdir: /opt/devstack

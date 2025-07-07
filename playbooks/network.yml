@@ -1,0 +1,25 @@
+- name: Setup Neutron Networking
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Create public network
+      command: openstack network create public --external --provider-network-type flat
+      ignore_errors: true
+
+    - name: Create private network
+      command: openstack network create private
+      ignore_errors: true
+
+    - name: Create router
+      command: openstack router create router1
+      ignore_errors: true
+
+    - name: Set router gateway
+      command: openstack router set router1 --external-gateway public
+      ignore_errors: true
+
+    - name: Create subnets and connect to router
+      shell: |
+        openstack subnet create --network private --subnet-range 10.0.0.0/24 private-subnet
+        openstack router add subnet router1 private-subnet
+      ignore_errors: true

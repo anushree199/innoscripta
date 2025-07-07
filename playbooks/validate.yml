@@ -1,0 +1,25 @@
+- name: Validate OpenStack Deployment
+  hosts: localhost
+  become: true
+  tasks:
+    - name: List OpenStack services
+      command: openstack service list
+      register: services
+    - debug: var=services.stdout_lines
+
+    - name: List compute instances
+      command: openstack server list
+      register: servers
+    - debug: var=servers.stdout_lines
+
+    - name: List object storage containers
+      command: openstack container list
+      register: containers
+      ignore_errors: true
+    - debug: var=containers.stdout_lines
+
+    - name: List Trove DB instances
+      command: openstack database instance list
+      register: dbs
+      ignore_errors: true
+    - debug: var=dbs.stdout_lines
