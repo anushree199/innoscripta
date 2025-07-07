@@ -1,7 +1,3 @@
-Here is the full `README.md` content without any special symbols, ready for clean copy-paste:
-
----
-
 # OpenStack Deployment Using Ansible on Ubuntu 22.04
 
 ## Project Objective
